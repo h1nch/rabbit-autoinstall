@@ -1,0 +1,12 @@
+--- 
+:primary: 
+  :ip: 192.168.20.212
+  :hostname: rabbit1
+:secondary: 
+  :ip: 192.168.20.213
+  :hostname: rabbit2
+:cluster_details: 
+  :devicefordrbd: /dev/xvdb1
+  :vip: 192.168.20.199
+  :viphostname: rabbit
+  
