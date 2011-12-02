@@ -169,13 +169,6 @@ if !ONPRIMARY
   end
 end
 
-gputs "Waiting on DRBD to finish its sync (may take a few minutes)... "
-while true do 
-  drbdstatus = `drbdadm dstate all`
-  break if drbdstatus.match(/UpToDate\/UpToDate/)
-  sleep 5
-end
-
 gputs "Generating corosync configuration file... "
 corosyncconf = ERB.new(File.open("corosync.conf.erb").read)
 File.open('/etc/corosync/corosync.conf', 'w') {|f| f.write(corosyncconf.result) }
@@ -189,6 +182,13 @@ while true do
   clusterstatus = `crm_mon -1 -s`
   break if clusterstatus.match(/2 nodes online/)
   sleep 1
+end
+
+gputs "Waiting on DRBD to finish its sync (may take a few minutes)... "
+while true do 
+  drbdstatus = `drbdadm dstate all`
+  break if drbdstatus.match(/UpToDate\/UpToDate/)
+  sleep 5
 end
 
 if (ONPRIMARY)
