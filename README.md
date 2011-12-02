@@ -5,6 +5,7 @@ Major Hayden
 * two Debian Squeeze VM's or physical boxes
 * network connectivity between both nodes
 * a virtual IP address and hostname for both nodes to share
+* ruby needs to be installed but no gems are required
 
 ## How do I use it?
 * clone this repository onto both nodes
