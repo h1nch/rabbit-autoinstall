@@ -287,7 +287,7 @@ end
 
 if ONPRIMARY
   gputs "Writing the SSL configuration for RabbitMQ... "
-  rabbitmqconfig = File.open('extras/rabbitmq.config')
+  rabbitmqconfig = File.open('extras/rabbitmq.config').read
   File.open('/etc/rabbitmq/rabbitmq.config', 'w') {|f| f.write(rabbitmqconfig) }
   execwrap("scp /etc/rabbitmq/rabbitmq.config rabbit2:/etc/rabbitmq/",true)
 end
