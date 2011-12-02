@@ -23,48 +23,6 @@ def execwrap(commands, checkretval = false)
   end
 end
 
-privkey = <<-EOF
------BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAwER4LjRgvk4+mI3uzuqAosTH7YzZ8ph02V+B1SfeV6peeEdz
-nmdlcAzx1wCfIMFLY0DwCjRfySMydC7WsLu7dSb7IUZRUr9PJDyiLnHOnH48nDF9
-fzxOMpNl48dC/ioFFEieXSYoQfUIO22SsQAFrK3Ezm4jFySB2H/ZNrp5Mshh+rLC
-opxH9UALoijD1NWMbpKvJmGLS7VDTLtyAmuSwNNoeEFrA8SR6j5QR/OxyQcpMzCI
-L3z5TdOkMlSoGnxxoUJvZR/2IR+ju7qgzR+jCijj0AJADGfCtOs1dI1I1K842E1M
-YtYsWt3hxUEdemoD6G+ZkX5+017xs5i1QRXOSQIDAQABAoIBADzOqs+6IwqtBmEL
-KoboZYyU/cIkdN2j1/jTmuVGOayyJjSWLHvhqZQ5k9byzGD4oRYf+IrRq6Waax+R
-nLbCePQBQxVv/tJTzPzh7E0SE00tI5AmmtE9ymF2epgCci6eLYMPwH4nTj4l99eL
-vQQbxK+rOX4sGQ79rc9CB/mmGiSz7MLioB+Alwplp7/rWaEY8ubIMoUvrA7Zb+M2
-b/7pF8tPaE4NtBmzCEEp2ADFCjgdOwSfqV765/7GV3EYBBqkM04cZSgeX+8C/P5t
-vDd2dpRTSS2akOY/ayMuDB9qHq4ryZCGtUq0GIsdzQAKmwJe1QBOVCPcARoL7TEl
-mosHFs0CgYEA6LFXkMEA9nTE2ZQTST9CPu9XqQAMUsbKgOmEJjoS3p2JPGH3BeVn
-mAcx/ygLaUZIOvZI23JA0+qV08Bb3XXvKZVubaszEacx486pfu1gfApB4qFNahdr
-0pdCD7clYiyJSda88HqW/+oEPfL/dorP3JtjDpIaZZQmGuXnJT+RjjcCgYEA04aN
-BNK3A9nelSDB56nDID8BAeiZmv/9MLlGJtlELgzLxsQLgGjQSTcYgVw3ij211q+v
-6O4kQmqitQuTeTqc/hvptEdmY5aiLHMREy+pcE4/JdRP8j4/H3MzpfNHMbw2fL4m
-B/oQhUqk5kjB18jb4ZPgzWtQB1Za7My+vrKJR38CgYAKaQS14Syd2hOEeG90c3QP
-RL3zPaFPgr1Ejy3uV+LIOtwM64UVqnG8B3ZhJ/V6vD43BRW1W6My1+fkFVMG0WPl
-xF2wYlxiicxdmL1UhGIwqnTQIs9H08xrG4FFGrh9b+ikeQry50kiIeIWs2xibUtn
-XzxLRpYPvVUHFwoETJfCeQKBgBM9VMxQgjcGdRlpXlm89jOTp3rN9lLD3/qzj27v
-KiVqIorUwBsQ7YkLSt5RTffz/vslBcIRDxk/a8c9408OhsMSNOKh7+01AVE7shzl
-o+rEIzhEpHTrNoCc0ODSTPJ4JRiZjwoAs8n77R3JFmCTM3TEJ5lnnmLcdu68/MiJ
-orTvAoGBAI3/M6RQnb80Vy0L4Cux2I792qBVKxZFF/k9gy5h/zfT4P8pczvwQYsh
-tSmg2mdxuRIN1KtTZIE0Go2EkMe/RDVAtK16BQofPyCPg1aqRZrAp2miY2geeuil
-BqaSjU4nqOxG30W7qGd2I0iGoYZXu+gSZQhYXoTwmcFgVGyT9ysH
------END RSA PRIVATE KEY-----
-EOF
-
-pubkey = <<-EOF
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDARHguNGC+Tj6Yje7O6oCixMftjNnymHTZX4HVJ95Xql54R3OeZ2VwDPHXAJ8gwUtjQPAKNF/JIzJ0Ltawu7t1JvshRlFSv08kPKIucc6cfjycMX1/PE4yk2Xjx0L+KgUUSJ5dJihB9Qg7bZKxAAWsrcTObiMXJIHYf9k2unkyyGH6ssKinEf1QAuiKMPU1Yxukq8mYYtLtUNMu3ICa5LA02h4QWsDxJHqPlBH87HJBykzMIgvfPlN06QyVKgafHGhQm9lH/YhH6O7uqDNH6MKKOPQAkAMZ8K06zV0jUjUrzjYTUxi1ixa3eHFQR16agPob5mRfn7TXvGzmLVBFc5J whee
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxjfFIIlGfCn9iclHymWrEBrTU2lL6tkSGT1ep7dCPzw1jY6WnhQlPXMpePriNxNXlG8cWO9/RFpBd0z9FwNy+kfgh9fuyNY49I+Ma6OyTVBg5hNoFxfRXG5iHtc/SQlnbEFiKpSk4lipo4QZtBtmgAqgkSA6Dzhygb6u5M9ixTIx4WBjuSM0GXQzNjpefyiWu+sIR+h2UrQkKABuuIYQbrjl+FhVmaLvrvyTO2usOtvnYBjhbPwyO72WPjapKd/9hTaqPE1wFy6UF2nXc4Pgw0giQb6sibFTz7NTexW35Q98qpQOWMYKcpgZrlSaHHKZSMhtzO7MdZrOLFUXoS1AeAy4ghtcNrOBTlb5SvP73zz0qBRF2cCO4O0wp5wwqPhvw2ntb3pTLPtdetJ+V50QPnpnXySSnZp2zFwce21bXx67nh9lnhLrZgje7coQnPAFx/cl36ESJygiuPcBw+k18YulYMXUqaBtkwJLkRjDpjTX2e5MJ16oD7sJHc4/W5kyfLvdMsVhdq1CXHGVVOpzogb095VYi0RXFpnZR/1eVgC/R+WVytYfY80rfVOcdAo2GZfnJ5zYRUXJJ9MZkanxx3E7UOikEJN9sUj200z6Cyy0IfIqTbJ1B5f7fd3acRrL4DcYUdFI/1ByNW6F1j7cZiAGOJKNbzXF0T3tf8x0e1Q== major@iridium.local
-
-EOF
-
-sshconfig = <<-EOF
-Host rabbit2
-  IdentityFile /root/.ssh/autoinstaller_rsa
-  StrictHostKeyChecking no
-EOF
-
 ##############################################################################
 # Get our constants ready
 
@@ -112,8 +70,10 @@ puts
 gputs "Adding ssh keys for inter-node tasks... "
 execwrap("mkdir -v /root/.ssh")
 execwrap("chmod -v 0700 /root/.ssh", true)
+privkey = File.open('extras/rabbitmq-autoinstaller_rsa').read
+pubkey = File.open('extras/rabbitmq-autoinstaller_rsa.pub').read
+sshconfig = File.open('extras/ssh_config').read
 File.open('/root/.ssh/autoinstaller_rsa', 'w') {|f| f.write(privkey) }
-File.open('/root/.ssh/autoinstaller_rsa.pub', 'w') {|f| f.write(pubkey) }
 File.open('/root/.ssh/authorized_keys', 'w') {|f| f.write(pubkey) }
 File.open('/root/.ssh/config', 'w') {|f| f.write(sshconfig) }
 execwrap("chmod -v 0600 /root/.ssh/*", true)
@@ -129,21 +89,7 @@ execwrap("pvcreate #{blockdev} && vgcreate vg #{blockdev} && lvcreate -n rabbit 
 
 
 gputs "Writing /etc/hosts & /etc/hostname... "
-hostfile = ERB.new <<-END
-127.0.0.1	localhost
-
-# Added by Major's H/A auto-installer
-<%=CONFIG[:primary][:ip]%>\t<%=CONFIG[:primary][:hostname]%>
-<%=CONFIG[:secondary][:ip]%>\t<%=CONFIG[:secondary][:hostname]%>
-<%=CONFIG[:cluster_details][:vip]%>\t<%=CONFIG[:cluster_details][:viphostname]%>
-
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-END
+hostfile = ERB.new(File.open('extras/etc-hosts.erb').read)
 File.open('/etc/hosts', 'w') {|f| f.write(hostfile.result) }
 hostname = ONPRIMARY ? CONFIG[:primary][:hostname] : CONFIG[:secondary][:hostname]
 File.open('/etc/hostname', 'w') {|f| f.write(hostname) }
@@ -151,22 +97,7 @@ execwrap("/bin/hostname #{hostname}", true)
 
 
 gputs "Adding DRBD resource for rabbit.. "
-drbdresource = ERB.new <<-END
-resource rabbit {
-  syncer {
-    rate            100M;
-  }
-  disk              /dev/mapper/vg-rabbit;
-  device            /dev/drbd0;
-  meta-disk         internal;
-  on <%=CONFIG[:primary][:hostname]%> {
-    address   <%=CONFIG[:primary][:ip]%>:7789;
-  }
-  on <%=CONFIG[:secondary][:hostname]%> {
-    address   <%=CONFIG[:secondary][:ip]%>:7789;
-  }
-}
-END
+drbdresource = ERB.new(File.open('extras/rabbit-drbd.erb').read)
 File.open('/etc/drbd.d/rabbit.res', 'w') {|f| f.write(drbdresource.result) }
 
 
@@ -356,18 +287,7 @@ end
 
 if ONPRIMARY
   gputs "Writing the SSL configuration for RabbitMQ... "
-  rabbitmqconfig = <<-EOF
-[
-  {rabbit, [
-     {ssl_listeners, [5671]},
-     {ssl_options, [{cacertfile,"/etc/rabbitmq/ssl/server.crt"},
-                    {certfile,"/etc/rabbitmq/ssl/server.crt"},
-                    {keyfile,"/etc/rabbitmq/ssl/server.key"},
-                    {verify,verify_peer},
-                    {fail_if_no_peer_cert,false}]}
-   ]}
-].
-EOF
+  rabbitmqconfig = File.open('extras/rabbitmq.config')
   File.open('/etc/rabbitmq/rabbitmq.config', 'w') {|f| f.write(rabbitmqconfig) }
   execwrap("scp /etc/rabbitmq/rabbitmq.config rabbit2:/etc/rabbitmq/",true)
 end
@@ -464,6 +384,9 @@ if !ONPRIMARY
   sleep 5
   execwrap("crm node online rabbit2",true)
   
+  gputs "Removing the ssh keys we added... "
+  execwrap('rm -f /root/.ssh/autoinstaller_rsa /root/.ssh/autoinstaller_rsa.pub /root/.ssh/ssh_config')
+  
   gputs "<<< ALL DONE >>>"
   gputs "BE SURE TO CHECK THE PRIMARY NODE'S SCREEN FOR ADDITIONAL INSTRUCTIONS"
 end
@@ -480,6 +403,9 @@ if ONPRIMARY
     break if `crm_mon -1`.scan(/Started rabbit1/).size == 3
     sleep 1
   end
+  
+  gputs "Removing the ssh keys we added... "
+  execwrap('rm -f /root/.ssh/autoinstaller_rsa /root/.ssh/autoinstaller_rsa.pub /root/.ssh/ssh_config')
   
   gputs <<-EOF
 ------------------------------------------------------------------------------
