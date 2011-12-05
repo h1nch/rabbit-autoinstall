@@ -139,7 +139,7 @@ execwrap(commands, true)
 if ONPRIMARY
   gputs "Copying .erlang.cookie to secondary node... "
   #DEV: Need a second node
-  execwrap("scp /var/lib/rabbitmq/.erlang.cookie rabbit2:/var/lib/rabbitmq/",true)
+  execwrap("scp /var/lib/rabbitmq/.erlang.cookie #{CONFIG[:secondary][:hostname]}:/var/lib/rabbitmq/",true)
 end
 
 gputs "Installing corosync & pacemaker..."
@@ -154,7 +154,7 @@ if ONPRIMARY
   commands = [
     "apt-get -y install rng-tools",
     "rngd -r /dev/urandom && corosync-keygen",
-    "scp /etc/corosync/authkey rabbit2:/etc/corosync/",
+    "scp /etc/corosync/authkey #{CONFIG[:secondary][:hostname]}:/etc/corosync/",
     "killall rngd",
     "apt-get -y remove rng-tools"
   ]
@@ -170,7 +170,7 @@ if !ONPRIMARY
 end
 
 gputs "Generating corosync configuration file... "
-corosyncconf = ERB.new(File.open("corosync.conf.erb").read)
+corosyncconf = ERB.new(File.open("extras/corosync.conf.erb").read)
 File.open('/etc/corosync/corosync.conf', 'w') {|f| f.write(corosyncconf.result) }
 
 gputs "Starting corosync... "
