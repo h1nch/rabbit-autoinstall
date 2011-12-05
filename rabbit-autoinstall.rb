@@ -211,7 +211,7 @@ if (ONPRIMARY)
   gputs "Checking to see if the cluster promoted a DRBD master... "
   while true
     crmmon = `crm_mon -1`
-    break if (crmmon.match(/Masters: \[ rabbit1 \]/))
+    break if (crmmon.match(/Masters: \[ #{CONFIG[:primary][:hostname]} \]/))
     sleep 1
   end
   
@@ -275,7 +275,7 @@ if ONPRIMARY
   gputs "Generating a self-signed certificate and key for RabbitMQ... "
   execwrap("mkdir -v /etc/rabbitmq/ssl/")
   execwrap(%{openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout /etc/rabbitmq/ssl/server.key -out /etc/rabbitmq/ssl/server.crt -subj "/C=US/ST=Texas/L=San Antonio/O=My Organization/OU=My Org Unit/CN=rabbit"},true)
-  execwrap("rsync -av /etc/rabbitmq/ssl rabbit2:/etc/rabbitmq/",true)
+  execwrap("rsync -av /etc/rabbitmq/ssl #{CONFIG[:secondary][:hostname]}:/etc/rabbitmq/",true)
 end
 
 if !ONPRIMARY
@@ -289,7 +289,7 @@ if ONPRIMARY
   gputs "Writing the SSL configuration for RabbitMQ... "
   rabbitmqconfig = File.open('extras/rabbitmq.config').read
   File.open('/etc/rabbitmq/rabbitmq.config', 'w') {|f| f.write(rabbitmqconfig) }
-  execwrap("scp /etc/rabbitmq/rabbitmq.config rabbit2:/etc/rabbitmq/",true)
+  execwrap("scp /etc/rabbitmq/rabbitmq.config #{CONFIG[:secondary][:hostname]}:/etc/rabbitmq/",true)
 end
 
 if !ONPRIMARY
@@ -345,22 +345,22 @@ if ONPRIMARY
   ]
   
   gputs "Attempting a failover... "
-  execwrap("crm node standby rabbit1",true)
+  execwrap("crm node standby #{CONFIG[:primary][:hostname]}",true)
   sleep 5
-  execwrap("crm node online rabbit1",true)
+  execwrap("crm node online #{CONFIG[:primary][:hostname]}",true)
   
 end
 
 if !ONPRIMARY
   gputs "Waiting for the primary node to attempt a failover... "
   while true do
-    break if `crm_mon -1`.match(/Masters: \[ rabbit2 \]/)
+    break if `crm_mon -1`.match(/Masters: \[ #{CONFIG[:secondary][:hostname]} \]/)
     sleep 1
   end
   
   gputs "Failover started - waiting for the cluster to settle... "
   while true do
-    break if `crm_mon -1`.scan(/Started rabbit2/).size == 3
+    break if `crm_mon -1`.scan(/Started #{CONFIG[:secondary][:hostname]}/).size == 3
     sleep 1
   end
   # sleep 5 # Rabbit is slow to start
@@ -380,9 +380,9 @@ if !ONPRIMARY
   raise "Something is wrong with RabbitMQ on 5672." unless output.match(/AMQP/)
   
   gputs "Failing back to the primary... "
-  execwrap("crm node standby rabbit2",true)
+  execwrap("crm node standby #{CONFIG[:secondary][:hostname]}",true)
   sleep 5
-  execwrap("crm node online rabbit2",true)
+  execwrap("crm node online #{CONFIG[:secondary][:hostname]}",true)
   
   gputs "Removing the ssh keys we added... "
   execwrap('rm -f /root/.ssh/autoinstaller_rsa /root/.ssh/autoinstaller_rsa.pub /root/.ssh/ssh_config')
@@ -394,13 +394,13 @@ end
 if ONPRIMARY
   gputs "Waiting for the secondary node to attempt a failover... "
   while true do
-    break if `crm_mon -1`.match(/Masters: \[ rabbit1 \]/)
+    break if `crm_mon -1`.match(/Masters: \[ #{CONFIG[:primary][:hostname]} \]/)
     sleep 1
   end
   
   gputs "Failover started - waiting for the cluster to settle... "
   while true do
-    break if `crm_mon -1`.scan(/Started rabbit1/).size == 3
+    break if `crm_mon -1`.scan(/Started #{CONFIG[:primary][:hostname]}/).size == 3
     sleep 1
   end
   
