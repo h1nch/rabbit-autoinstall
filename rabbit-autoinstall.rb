@@ -78,8 +78,8 @@ File.open('/root/.ssh/authorized_keys', 'w') {|f| f.write(pubkey) }
 File.open('/root/.ssh/config', 'w') {|f| f.write(sshconfig) }
 execwrap("chmod -v 0600 /root/.ssh/*", true)
 
-gputs "Installing drbd8-utils lvm2 rsync... "
-execwrap("apt-get -qq update && apt-get -q -y install drbd8-utils lvm2 rsync",true)
+gputs "Installing drbd8-utils lvm2 rsync and other dependencies... "
+execwrap("apt-get -qq update && apt-get -q -y install drbd8-utils lvm2 rsync psmisc",true)
 
 
 blockdev = CONFIG[:cluster_details][:devicefordrbd]
@@ -248,7 +248,7 @@ EOF
   end
   
   gputs "Adding the floating IP to the cluster... "
-  execwrap(%{crm configure primitive ip ocf:heartbeat:IPaddr2 params ip="#{CONFIG[:cluster_details][:vip]}" cidr_netmask="24" op monitor interval="60s"},true)
+  execwrap(%{crm configure primitive ip ocf:heartbeat:IPaddr2 params ip="#{CONFIG[:cluster_details][:vip]}" cidr_netmask="24" arp_bg="no" op monitor interval="60s"},true)
 
   gputs "Adding RabbitMQ, setting a service group, and applying ordering constraints... "
   tempcrm = <<-EOF
