@@ -72,7 +72,7 @@ execwrap("mkdir -v /root/.ssh")
 execwrap("chmod -v 0700 /root/.ssh", true)
 privkey = File.open('extras/rabbitmq-autoinstaller_rsa').read
 pubkey = File.open('extras/rabbitmq-autoinstaller_rsa.pub').read
-sshconfig = File.open('extras/ssh_config').read
+sshconfig = ERB.new(File.open('extras/ssh_config.erb').read)
 File.open('/root/.ssh/autoinstaller_rsa', 'w') {|f| f.write(privkey) }
 File.open('/root/.ssh/authorized_keys', 'w') {|f| f.write(pubkey) }
 File.open('/root/.ssh/config', 'w') {|f| f.write(sshconfig) }
