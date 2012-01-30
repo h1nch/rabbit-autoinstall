@@ -75,7 +75,7 @@ pubkey = File.open('extras/rabbitmq-autoinstaller_rsa.pub').read
 sshconfig = ERB.new(File.open('extras/ssh_config.erb').read)
 File.open('/root/.ssh/autoinstaller_rsa', 'w') {|f| f.write(privkey) }
 File.open('/root/.ssh/authorized_keys', 'w') {|f| f.write(pubkey) }
-File.open('/root/.ssh/config', 'w') {|f| f.write(sshconfig) }
+File.open('/root/.ssh/config', 'w') {|f| f.write(sshconfig.result) }
 execwrap("chmod -v 0600 /root/.ssh/*", true)
 
 gputs "Installing drbd8-utils lvm2 rsync and other dependencies... "
